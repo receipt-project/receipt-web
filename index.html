@@ -1,10 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <title>Receipt</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link href="style.css" rel="stylesheet">
+</head>
 <body>
-  <form action="http://receipt.shefer.space/rest/get" method="get">
-    FN: <input type="text" name="fn"><br>
-    FD: <input type="text" name="fd"><br>
-    FP: <input type="text" name="fp"><br>
-    Сумма в копейках: <input type="text" name="sum"><br>
-    Unix-время: <input type="text" name="sum"><br>
-    <input type="submit" value="Submit">
-  </form>
+
+<form class="main" action="http://receipt.shefer.space/rest/get" method="get">
+    <fieldset>
+        <legend>RECEIPT</legend>
+        <div>
+            <label for="fn">FN:</label>
+            <input type="text" name="fn" id="fn">
+        </div>
+        <div>
+            <label for="fd">FD:</label>
+            <input type="text" name="fd" id="fd">
+        </div>
+        <div>
+            <label for="fp">FP:</label>
+            <input type="text" name="fp" id="fp">
+        </div>
+        <div>
+            <label for="sum"> Сумма в копейках: </label>
+            <input type="text" name="sum" id="sum">
+        </div>
+        <div>
+            <label for="time">Unix-время:</label>
+            <input type="text" name="time" id="time">
+        </div>
+
+        <input type="submit" value="Submit" id="submit">
+    </fieldset>
+</form>
 </body>
+</html>
