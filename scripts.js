@@ -12,7 +12,9 @@ const handleFormSubmit = function () {
             setUrlParameters();
         },
         error: function (xhr) {
-            alert(JSON.stringify(xhr));
+            alert("Error! Could not perform request");
+            let answerString = JSON.stringify(xhr);
+            $("#output").val(answerString);
         }
     });
 };
