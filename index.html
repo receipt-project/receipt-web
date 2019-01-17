@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form class="main" action="http://receipt.shefer.space/rest/get" method="get">
+<form class="main">
     <fieldset>
         <legend>RECEIPT</legend>
         <div>
@@ -33,9 +33,20 @@
             <label for="date">Unix-время:</label>
             <input type="text" name="date" id="date">
         </div>
-
-        <input type="submit" value="Submit" id="submit">
+        <input type="button" value="Submit" id="submit" onclick="handleFormSubmit()">
     </fieldset>
 </form>
+<br/>
+<div id="results" align="center">
+    Для просмотра используйте
+    <br/>
+    <a href="http://json2table.com/" target="_blank">http://json2table.com/</a>
+    <br/>
+    <input type="text" name="output" id="output">
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+<script src="scripts.js"></script>
+
 </body>
 </html>
