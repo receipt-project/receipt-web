@@ -15,3 +15,8 @@ const handleFormSubmit = function () {
         }
     });
 };
+
+const handleOutputCopy = function () {
+    $("#output").select();
+    document.execCommand("copy");
+};
