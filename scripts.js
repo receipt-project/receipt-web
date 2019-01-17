@@ -1,7 +1,7 @@
 const handleFormSubmit = function () {
     $("#output").val("loading...");
 
-    let parameters = $("form.main").serialize();
+    let parameters = getFormParameters();
     let myurl = "http://receipt.shefer.space/rest/get?" + parameters;
     let response = $.ajax({
         url: myurl,
@@ -9,6 +9,7 @@ const handleFormSubmit = function () {
         success: function (data) {
             let answerString = JSON.stringify(JSON.parse(data));
             $("#output").val(answerString);
+            setUrlParameters();
         },
         error: function (xhr) {
             alert(JSON.stringify(xhr));
@@ -32,3 +33,13 @@ const loadParameters = function () {
 $(document).ready(function () {
     loadParameters();
 });
+
+function getFormParameters() {
+    return $("form.main").serialize();
+}
+
+const setUrlParameters = function () {
+    let location = new URL(window.location.href);
+    let link = location.origin + location.pathname + "?" + getFormParameters();
+    history.pushState(null, null, link);
+}
