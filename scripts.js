@@ -20,3 +20,15 @@ const handleOutputCopy = function () {
     $("#output").select();
     document.execCommand("copy");
 };
+
+const loadParameters = function () {
+    let url = new URL(window.location.href);
+    let parameters = url.searchParams;
+    for (let key of parameters.keys()) {
+        $("input#" + key).val(parameters.get(key));
+    }
+};
+
+$(document).ready(function () {
+    loadParameters();
+});
