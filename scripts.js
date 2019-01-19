@@ -7,6 +7,8 @@ const handleFormSubmit = function () {
         url: myurl,
         context: document.body,
         success: function (data) {
+            let answer = JSON.parse(data);
+            printToTable(answer);
             let answerString = JSON.stringify(JSON.parse(data));
             $("#output").val(answerString);
             setUrlParameters();
@@ -18,6 +20,20 @@ const handleFormSubmit = function () {
         }
     });
 };
+
+const printToTable = function (data) {
+    const tbody = $("#result-table tbody");
+    tbody.empty();
+    const items = data.items;
+    for (let i = 0; i < items.length; i++) {
+        let id = i + 1;
+        let text = items[i].text;
+        let price = items[i].price;
+        let amount = items[i].amount;
+        let row = `<tr><th scope="row">${id}</th><td>${text}</td><td>${price}</td><td>${amount}</td></tr>`
+        tbody.append(row);
+    }
+}
 
 const handleOutputCopy = function () {
     $("#output").select();

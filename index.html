@@ -45,10 +45,18 @@
             </form>
         </div>
         <div class="col" id="results">
-            Для просмотра используйте
-            <br/>
-            <a href="http://json2table.com/" target="_blank">http://json2table.com/</a>
-            <br/>
+            <table class="table" id="result-table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Количество</th>
+                </tr>
+                </thead>
+                <tbody><!-- There will be printer resulting table --></tbody>
+            </table>
+            <hr>
             <input type="text" name="output" id="output">
             <input type="button" value="Copy" id="buttonCopyOutput" onclick="handleOutputCopy()">
         </div>
