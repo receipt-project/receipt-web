@@ -8,9 +8,8 @@ const handleFormSubmit = function () {
         context: document.body,
         success: function (data) {
             let answer = JSON.parse(data);
+            $("#output").val(JSON.stringify(answer));
             printToTable(answer);
-            let answerString = JSON.stringify(JSON.parse(data));
-            $("#output").val(answerString);
             setUrlParameters();
         },
         error: function (xhr) {
