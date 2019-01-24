@@ -8,7 +8,6 @@ const handleFormSubmit = function () {
             let answer = JSON.parse(data);
             printToTable(answer);
             console.log(JSON.stringify(answer));
-            setUrlParameters();
         },
         error: function (xhr) {
             alert("Error! Could not perform request");
@@ -57,7 +56,7 @@ function getFormParameters() {
     return $("form.main").serialize();
 }
 
-const setUrlParameters = function () {
+const handleShare = function () {
     let location = new URL(window.location.href);
     let link = location.origin + location.pathname + "?" + getFormParameters();
     history.pushState(null, null, link);
