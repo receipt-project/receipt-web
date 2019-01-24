@@ -32,6 +32,15 @@ const printToTable = function (data) {
         let row = `<tr><th scope="row">${id}</th><td>${text}</td><td>${price}</td><td>${amount}</td></tr>`
         tbody.append(row);
     }
+    const tmetabody = $("#result-meta-table tbody");
+    tmetabody.empty();
+    const meta = data.meta;
+    for (let property in meta) {
+        if (meta.hasOwnProperty(property)) {
+            let row = `<tr><th scope="row">${property}</th><td>${meta[property]}</td></tr>`
+            tmetabody.append(row);
+        }
+    }
 }
 
 const handleOutputCopy = function () {
