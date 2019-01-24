@@ -1,6 +1,4 @@
 const handleFormSubmit = function () {
-    $("#output").val("loading...");
-
     let parameters = getFormParameters();
     let myurl = "http://receipt.shefer.space/rest/get?" + parameters;
     let response = $.ajax({
@@ -8,14 +6,14 @@ const handleFormSubmit = function () {
         context: document.body,
         success: function (data) {
             let answer = JSON.parse(data);
-            $("#output").val(JSON.stringify(answer));
             printToTable(answer);
+            console.log(JSON.stringify(answer));
             setUrlParameters();
         },
         error: function (xhr) {
             alert("Error! Could not perform request");
             let answerString = JSON.stringify(xhr);
-            $("#output").val(answerString);
+            console.log(answerString);
         }
     });
 };
@@ -42,11 +40,6 @@ const printToTable = function (data) {
         }
     }
 }
-
-const handleOutputCopy = function () {
-    $("#output").select();
-    document.execCommand("copy");
-};
 
 const loadParameters = function () {
     let url = new URL(window.location.href);
