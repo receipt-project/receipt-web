@@ -1,28 +1,23 @@
 <!DOCTYPE HTML>
-<html>
- <head>
- 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
     <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="scripts.js"></script>
     <meta charset="utf-8">
-    <title> </title>
- </head>
- <body>
-  
-  <p style="text-align: center"> 
-  	<input type="button" class="btn btn-primary" value="restart rest" onclick="performAction('restart-rest')"> 
-  </p>
-  <p style="text-align: center"> 
-  	<input type="button" class="btn btn-primary" value="stop rest" onclick="performAction('stop-rest')"> 
-  </p>
-  
-  <p style="text-align: center"> 
-  	<input type="button" class="btn btn-primary" value="restart loader" onclick="performAction('restart-loader')"> 
-  </p>
-  <p style="text-align: center"> 
-  	<input type="button" class="btn btn-primary" value="stop loader" onclick="performAction('stop-loader')"> 
-  </p>
-  
-  <p style="text-align: center"><textarea rows="15" cols="60"></textarea></p>
- </body>
+    <title>Панель управления - Receipt</title>
+    <link rel="icon" href="images/administrator.ico">
+  </head>
+  <body>
+    <div>
+      <input type="button" class="btn btn-primary" value="Restart Rest" onclick="performAction('restart-rest')">
+      <input type="button" class="btn btn-primary" value="Stop Rest" onclick="performAction('stop-rest')">
+      <input type="button" class="btn btn-primary" value="Restart Loader"
+             onclick="performAction('restart-loader')">
+      <input type="button" class="btn btn-primary" value="Stop Loader" onclick="performAction('stop-loader')">
+    </div>
+    <textarea rows="15" cols="60"></textarea>
+  </body>
 </html>
