@@ -1,9 +1,15 @@
+const getScriptName = function ()
+{
+    performAction($("#script_name").val());
+}
+
 const performAction = function(action)
 	{
 		handleAndPrint('https://private.shefer.space/management/' + action); 
 	}
 
 const handleAndPrint = function(myurl){
+    
 	$.ajax({
         url: myurl,
         context: document.body,

@@ -18,6 +18,14 @@
              onclick="performAction('restart-loader')">
       <input type="button" class="btn btn-primary" value="Stop Loader" onclick="performAction('stop-loader')">
     </div>
+        
+        <div class="input-group">
+          <input type="text" class="form-control" id="script_name" placeholder="Script name">
+          <div class="input-group-append">
+            <input type="button" class="btn btn-primary" value="Start script" onclick="getScriptName()">
+          </div>
+        </div>
+         
     <textarea rows="15" cols="60"></textarea>
   </body>
 </html>
