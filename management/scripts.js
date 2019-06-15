@@ -1,6 +1,17 @@
 const getScriptName = function ()
 {
-    performAction($("#script_name").val());
+    var str = $("#script_name").val(); 
+    
+    if (str.match(/^\w+$/g))
+    
+    {
+    	performAction(str);
+    }
+    else 
+    {	
+
+    	$("textarea").html("Неверное имя скрипта! Попробуйте снова ");
+    }
 }
 
 const performAction = function(action)
@@ -9,7 +20,7 @@ const performAction = function(action)
 	}
 
 const handleAndPrint = function(myurl){
-    
+
 	$.ajax({
         url: myurl,
         context: document.body,

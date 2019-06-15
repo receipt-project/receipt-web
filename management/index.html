@@ -11,21 +11,42 @@
     <link rel="icon" href="images/administrator.ico">
   </head>
   <body>
-    <div>
-      <input type="button" class="btn btn-primary" value="Restart Rest" onclick="performAction('restart-rest')">
-      <input type="button" class="btn btn-primary" value="Stop Rest" onclick="performAction('stop-rest')">
-      <input type="button" class="btn btn-primary" value="Restart Loader"
-             onclick="performAction('restart-loader')">
-      <input type="button" class="btn btn-primary" value="Stop Loader" onclick="performAction('stop-loader')">
+    <div class="container-fluid">
+    	
+      <div class="row justify-content-center">
+            <div class="p-3">
+            	<input type="button" class="btn btn-primary" value="Restart Rest" onclick="performAction('restart-rest')">	
+            </div>	
+      		<div class="p-3">
+      			<input type="button" class="btn btn-primary" value="Stop Rest" 	  onclick="performAction('stop-rest')">
+      		</div>
+      		<div class="p-3">
+      			<input type="button" class="btn btn-primary" value="Restart Loader" onclick="performAction('restart-loader')">
+      		</div>
+      		<div class="p-3">
+      			<input type="button" class="btn btn-primary" value="Stop Loader"    onclick="performAction('stop-loader')">	
+      		</div>
+      
+    </div>	
+        <div class="row justify-content-center">
+        	<div class="col-4 p-3">
+        		<div class="input-group">
+
+	          	<input type="text" class="form-control" id="script_name" placeholder="Script name">
+	          
+		          <div class="input-group-append">
+		            <input type="button" class="btn btn-primary" value="Start script" onclick="getScriptName()">
+		          </div>
+		      	</div>
+
+        	</div>
+    	</div>
+    
+    <div class="row justify-content-center">
+    	
+    	<textarea rows="15" cols="60"></textarea>
     </div>
-        
-        <div class="input-group">
-          <input type="text" class="form-control" id="script_name" placeholder="Script name">
-          <div class="input-group-append">
-            <input type="button" class="btn btn-primary" value="Start script" onclick="getScriptName()">
-          </div>
-        </div>
-         
-    <textarea rows="15" cols="60"></textarea>
+    	
+	</div> 
   </body>
 </html>
