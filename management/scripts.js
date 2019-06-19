@@ -2,14 +2,9 @@ const getScriptName = function ()
 {
     var str = $("#script_name").val(); 
     
-    if (str.match(/^\w+$/g))
-    
-    {
+    if (str.match(/^\w+$/g)) {
     	performAction(str);
-    }
-    else 
-    {	
-
+    } else {
     	$("textarea").html("Неверное имя скрипта! Попробуйте снова ");
     }
 }
