@@ -1,6 +1,10 @@
 const handleFormSubmit = function () {
     let parameters = getFormParameters();
     let myurl = "http://receipt.shefer.space/rest/get?" + parameters;
+    $("#submit").attr('disabled', true); 
+	setTimeout(function() { 
+			$("#submit").attr('disabled', false); 
+			}, 5000); 
     $.ajax({
         url: myurl,
         context: document.body,
