@@ -57,10 +57,8 @@
                     </div>
                     <div class="form-group">
                         <label for="t">Время</label>
-                        <input type="text" class="form-control" name="t" id="t" placeholder="20191231T2359">
-                        <small id="emailHelp" class="form-text text-muted">
-                            ггггммддTччмм (T латинская)
-                        </small>
+                        <input type="text" class="form-control" name="t" id="t">                        
+                        <input type="date" class="form-control" name="d" id="d">
                     </div>
                     <div class="form-group">
                         <input type="button" class="btn btn-primary" value="Отправить" id="submit"
@@ -69,6 +67,16 @@
                                onclick="handleShare()">
                     </div>
                 </fieldset>
+
+			<script type="text/javascript">
+				var TimeField = document.querySelector('#t');
+				var date = new Date();
+				TimeField.value = date.getHours().toString() + ':' + date.getMinutes().toString();
+				var DateField = document.querySelector('#d');
+				DateField.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) +
+					'-' + date.getDate().toString().padStart(2, 0);
+			</script> 
+    
             </form>
         </div>
         <div class="col" id="results">
