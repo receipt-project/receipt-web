@@ -43,18 +43,15 @@ const printToTable = function (data) {
 const loadParameters = function () {
     let url = new URL(window.location.href);
     let parameters = url.searchParams;
-    //for (let key of parameters.keys()) {
-    $("input#" + "fn").val(parameters.get("fn"));
- 	$("input#" + "i").val(parameters.get("i"));
- 	$("input#" + "fp").val(parameters.get("fp"));
- 	$("input#" + "s").val(parameters.get("s"));
-
- 	var n = parameters.get("t").length;
- 	var time = parameters.get("t").substr(n-4,2) + ":" + parameters.get("t").substr(n-2,2);
- 	var date = parameters.get("t").substr(0,4) + "-" + parameters.get("t").substr(4,2) + "-" +parameters.get("t").substr(6,2); 
- 	
- 	$("input#" + "t").val(time);
- 	$("input#" + "d").val(date);
+    $("input#fn").val(parameters.get("fn"));
+ 	$("input#i").val(parameters.get("i"));
+ 	$("input#fp").val(parameters.get("fp"));
+ 	$("input#s").val(parameters.get("s"));
+ 	var n = parameters.get("time").length;
+ 	var time = parameters.get("time").substr(n-4,2) + ":" + parameters.get("time").substr(n-2,2);
+ 	var date = parameters.get("time").substr(0,4)   + "-" + parameters.get("time").substr(4,2) + "-" + parameters.get("time").substr(6,2);  	
+ 	$("input#time").val(time);
+ 	$("input#date").val(date);
 };
 
 $(document).ready(function () {
@@ -62,16 +59,19 @@ $(document).ready(function () {
 });
 
 const getFormParameters = function () {
-
-	var FN = document.querySelector('#fn');
-	var FD = document.querySelector('#i');
-	var FP = document.querySelector('#fp');
-	var S  = document.querySelector('#s'); 
-	var Time = document.querySelector('#t');
-	var DateF = document.querySelector('#d');
-	let parameters = "fn=" + FN.value + "&i=" + FD.value + "&fp=" + FP.value + 	"&s=" + S.value + 
-	"&t=" + DateF.value.split('-').join('') + "T" + Time.value.split(':').join('');
-	
+	var fn = document.querySelector('#fn');
+	var fd = document.querySelector('#i');
+	var fp = document.querySelector('#fp');
+	var s  = document.querySelector('#s'); 
+	var time = document.querySelector('#time');
+	var dateF = document.querySelector('#date');
+	let parameters = 
+					"fn="  + fn.value + 
+					"&i="  + fd.value + 
+					"&fp=" + fp.value + 
+					"&s="  + s.value  + 
+					"&t="  + dateF.value.split('-').join('') + 
+					"T"    + time.value.split(':').join('');
     return parameters;
 };
 

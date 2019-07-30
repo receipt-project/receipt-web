@@ -57,8 +57,8 @@
                     </div>
                     <div class="form-group">
                         <label for="t">Время</label>
-                        <input type="text" class="form-control" name="t" id="t">                        
-                        <input type="date" class="form-control" name="d" id="d">
+                        <input type="text" class="form-control" name="time" id="time">                        
+                        <input type="date" class="form-control" name="date" id="date">
                     </div>
                     <div class="form-group">
                         <input type="button" class="btn btn-primary" value="Отправить" id="submit"
@@ -67,16 +67,15 @@
                                onclick="handleShare()">
                     </div>
                 </fieldset>
-
-			<script type="text/javascript">
-				var TimeField = document.querySelector('#t');
-				var date = new Date();
-				TimeField.value = date.getHours().toString() + ':' + date.getMinutes().toString();
-				var DateField = document.querySelector('#d');
-				DateField.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) +
-					'-' + date.getDate().toString().padStart(2, 0);
-			</script> 
-    
+				<script type="text/javascript">
+					var timeField = document.querySelector('#time');
+					var dateField = document.querySelector('#date');
+					var date = new Date();
+					timeField.value = date.getHours().toString() + ':' + date.getMinutes().toString();
+					dateField.value = date.getFullYear().toString()
+								+ '-' + (date.getMonth() + 1).toString().padStart(2, 0)
+								+ '-' +  date.getDate().toString().padStart(2, 0);
+				</script> 
             </form>
         </div>
         <div class="col" id="results">
