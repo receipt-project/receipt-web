@@ -4,7 +4,7 @@ const handleFormSubmit = function () {
     $("#submit").attr('disabled', true); 
     setTimeout(function() { 
         $("#submit").attr('disabled', false); 
-	}, 5000); 
+    }, 5000); 
     $.ajax({
         url: myurl,
         context: document.body,
