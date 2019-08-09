@@ -92,7 +92,7 @@ const setDefaultTime = function() {
     var date = new Date();
     timeField.value = date.getHours().toString() + ':' + date.getMinutes().toString();
     dateField.value = 
-        date.getFullYear().toString()
-        + '-' + (date.getMonth() + 1).toString().padStart(2, 0)
-        + '-' +  date.getDate().toString().padStart(2, 0);
+        date.getFullYear().toString() + 
+        '-' + (date.getMonth() + 1).toString().padStart(2, 0) + 
+        '-' +  date.getDate().toString().padStart(2, 0);
 };
