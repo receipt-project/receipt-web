@@ -44,14 +44,14 @@ const loadParameters = function () {
     let url = new URL(window.location.href);
     let parameters = url.searchParams;
     $("input#fn").val(parameters.get("fn"));
- 	$("input#i").val(parameters.get("i"));
- 	$("input#fp").val(parameters.get("fp"));
- 	$("input#s").val(parameters.get("s"));
- 	var n = parameters.get("time").length;
- 	var time = parameters.get("time").substr(n-4,2) + ":" + parameters.get("time").substr(n-2,2);
- 	var date = parameters.get("time").substr(0,4)   + "-" + parameters.get("time").substr(4,2) + "-" + parameters.get("time").substr(6,2);  	
- 	$("input#time").val(time);
- 	$("input#date").val(date);
+    $("input#i").val(parameters.get("i"));
+    $("input#fp").val(parameters.get("fp"));
+    $("input#s").val(parameters.get("s"));
+    var n = parameters.get("time").length;
+    var time = parameters.get("time").substr(n-4,2) + ":" + parameters.get("time").substr(n-2,2);
+    var date = parameters.get("time").substr(0,4)   + "-" + parameters.get("time").substr(4,2) + "-" + parameters.get("time").substr(6,2);  	
+    $("input#time").val(time);
+    $("input#date").val(date);
 };
 
 $(document).ready(function () {
@@ -59,19 +59,19 @@ $(document).ready(function () {
 });
 
 const getFormParameters = function () {
-	var fn = document.querySelector('#fn');
-	var fd = document.querySelector('#i');
-	var fp = document.querySelector('#fp');
-	var s  = document.querySelector('#s'); 
-	var time = document.querySelector('#time');
-	var dateF = document.querySelector('#date');
-	let parameters = 
-					"fn="  + fn.value + 
-					"&i="  + fd.value + 
-					"&fp=" + fp.value + 
-					"&s="  + s.value  + 
-					"&t="  + dateF.value.split('-').join('') + 
-					"T"    + time.value.split(':').join('');
+    var fn = document.querySelector('#fn');
+    var fd = document.querySelector('#i');
+    var fp = document.querySelector('#fp');
+    var s  = document.querySelector('#s'); 
+    var time = document.querySelector('#time');
+    var dateF = document.querySelector('#date');
+    let parameters = 
+                    "fn="  + fn.value + 
+                    "&i="  + fd.value + 
+                    "&fp=" + fp.value + 
+                    "&s="  + s.value  + 
+                    "&t="  + dateF.value.split('-').join('') + 
+                    "T"    + time.value.split(':').join('');
     return parameters;
 };
 
