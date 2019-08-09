@@ -56,6 +56,7 @@ const loadParameters = function () {
 
 $(document).ready(function () {
     loadParameters();
+    setDefaultTime();
 });
 
 const getFormParameters = function () {
@@ -66,12 +67,12 @@ const getFormParameters = function () {
     var time = document.querySelector('#time');
     var dateF = document.querySelector('#date');
     let parameters = 
-                    "fn="  + fn.value + 
-                    "&i="  + fd.value + 
-                    "&fp=" + fp.value + 
-                    "&s="  + s.value  + 
-                    "&t="  + dateF.value.split('-').join('') + 
-                    "T"    + time.value.split(':').join('');
+        "fn="  + fn.value + 
+        "&i="  + fd.value + 
+        "&fp=" + fp.value + 
+        "&s="  + s.value  + 
+        "&t="  + dateF.value.split('-').join('') + 
+        "T"    + time.value.split(':').join('');
     return parameters;
 };
 
@@ -79,4 +80,15 @@ const handleShare = function () {
     let location = new URL(window.location.href);
     let link = location.origin + location.pathname + "?" + getFormParameters();
     history.pushState(null, null, link);
+};
+
+const setDefaultTime = function() {
+    var timeField = document.querySelector('#time');
+    var dateField = document.querySelector('#date');
+    var date = new Date();
+    timeField.value = date.getHours().toString() + ':' + date.getMinutes().toString();
+    dateField.value = 
+        date.getFullYear().toString()
+        + '-' + (date.getMonth() + 1).toString().padStart(2, 0)
+        + '-' +  date.getDate().toString().padStart(2, 0);
 };
