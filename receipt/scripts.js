@@ -51,16 +51,16 @@ const loadParameters = function () {
     $("input#i").val(parameters.get("i"));
     $("input#fp").val(parameters.get("fp"));
     $("input#s").val(parameters.get("s"));
-    var n = parameters.get("time").length;
-    var time = parameters.get("time").substr(n-4,2) + ":" + parameters.get("time").substr(n-2,2);
-    var date = parameters.get("time").substr(0,4)   + "-" + parameters.get("time").substr(4,2) + "-" + parameters.get("time").substr(6,2);  	
+    var n = parameters.get("t").length;
+    var time = parameters.get("t").substr(n-4,2) + ":" + parameters.get("t").substr(n-2,2);
+    var date = parameters.get("t").substr(0,4)   + "-" + parameters.get("t").substr(4,2) + "-" + parameters.get("t").substr(6,2);	
     $("input#time").val(time);
     $("input#date").val(date);
 };
 
 $(document).ready(function () {
-    loadParameters();
     setDefaultTime();
+    loadParameters();
 });
 
 const getFormParameters = function () {
@@ -90,7 +90,9 @@ const setDefaultTime = function() {
     var timeField = document.querySelector('#time');
     var dateField = document.querySelector('#date');
     var date = new Date();
-    timeField.value = date.getHours().toString() + ':' + date.getMinutes().toString();
+    timeField.value = 
+        (date.getHours().toString().length < 2 ? ("0" + date.getHours().toString()) : date.getHours().toString()) + 
+        ':' + date.getMinutes().toString();
     dateField.value = 
         date.getFullYear().toString() + 
         '-' + (date.getMonth() + 1).toString().padStart(2, 0) + 
