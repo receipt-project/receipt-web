@@ -47,21 +47,52 @@ const printToTable = function (data) {
 const loadParameters = function () {
     let url = new URL(window.location.href);
     let parameters = url.searchParams;
-    for (let key of parameters.keys()) {
-        $("input#" + key).val(parameters.get(key));
-    }
+    $("input#fn").val(parameters.get("fn"));
+    $("input#i").val(parameters.get("i"));
+    $("input#fp").val(parameters.get("fp"));
+    $("input#s").val(parameters.get("s"));
+    var n = parameters.get("time").length;
+    var time = parameters.get("time").substr(n-4,2) + ":" + parameters.get("time").substr(n-2,2);
+    var date = parameters.get("time").substr(0,4)   + "-" + parameters.get("time").substr(4,2) + "-" + parameters.get("time").substr(6,2);  	
+    $("input#time").val(time);
+    $("input#date").val(date);
 };
 
 $(document).ready(function () {
     loadParameters();
+    setDefaultTime();
 });
 
 const getFormParameters = function () {
-    return $("form.main").serialize();
+    var fn = document.querySelector('#fn');
+    var fd = document.querySelector('#i');
+    var fp = document.querySelector('#fp');
+    var s  = document.querySelector('#s'); 
+    var time = document.querySelector('#time');
+    var dateF = document.querySelector('#date');
+    let parameters = 
+        "fn="  + fn.value + 
+        "&i="  + fd.value + 
+        "&fp=" + fp.value + 
+        "&s="  + s.value  + 
+        "&t="  + dateF.value.split('-').join('') + 
+        "T"    + time.value.split(':').join('');
+    return parameters;
 };
 
 const handleShare = function () {
     let location = new URL(window.location.href);
     let link = location.origin + location.pathname + "?" + getFormParameters();
     history.pushState(null, null, link);
+};
+
+const setDefaultTime = function() {
+    var timeField = document.querySelector('#time');
+    var dateField = document.querySelector('#date');
+    var date = new Date();
+    timeField.value = date.getHours().toString() + ':' + date.getMinutes().toString();
+    dateField.value = 
+        date.getFullYear().toString()
+        + '-' + (date.getMonth() + 1).toString().padStart(2, 0)
+        + '-' +  date.getDate().toString().padStart(2, 0);
 };
