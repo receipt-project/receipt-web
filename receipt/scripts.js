@@ -60,7 +60,8 @@ const loadParameters = function () {
 
 $(document).ready(function () {
     setDefaultTime();
-    loadParameters();
+    //loadParameters();
+    loadcardInfo();
 });
 
 const getFormParameters = function () {
@@ -97,4 +98,27 @@ const setDefaultTime = function() {
         date.getFullYear().toString() + 
         '-' + (date.getMonth() + 1).toString().padStart(2, 0) + 
         '-' +  date.getDate().toString().padStart(2, 0);
+};
+
+const loadcardInfo = function() {
+    console.log("Отправил запрос на список чеков ... ");
+    let myurl = "https://receipt.shefer.space/rest/report";
+    $.ajax({
+        url: myurl,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: {"meta":{},"items":{}},
+        context: document.body,
+        success: function (data) {
+            console.log("Получил ответ с чеками ... ");
+            let answer = JSON.parse(data);
+            console.log(JSON.stringify(answer));
+        },
+        error: function (xhr) {
+            console.log("Не удалось получить список чеков!");
+            //alert ("Error! Could not perform request");
+            let answerString = JSON.stringify(xhr);
+            console.log(answerString);
+        }
+    })
 };
