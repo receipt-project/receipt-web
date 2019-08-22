@@ -102,12 +102,12 @@ const setDefaultTime = function() {
 
 const loadcardInfo = function() {
     console.log("Отправил запрос на список чеков ... ");
-    let myurl = "https://receipt.shefer.space/rest/report";
+    let myurl = "http://receipt.shefer.space/rest/report";
     $.ajax({
         url: myurl,
         type: 'PUT',
         contentType: 'application/json',
-        data: {"meta":{},"items":{}},
+        data: '{"meta":{},"items":{}}',
         context: document.body,
         success: function (data) {
             console.log("Получил ответ с чеками ... ");
