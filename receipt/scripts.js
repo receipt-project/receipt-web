@@ -60,7 +60,7 @@ const loadParameters = function () {
 
 $(document).ready(function () {
     setDefaultTime();
-    //loadParameters();
+    loadParameters();
     loadcardInfo();
 });
 
@@ -102,7 +102,7 @@ const setDefaultTime = function() {
 
 const loadcardInfo = function() {
     console.log("Отправил запрос на список чеков ... ");
-    let myurl = "http://receipt.shefer.space/rest/report";
+    let myurl = "http://local.shefer.space/rest/report";
     $.ajax({
         url: myurl,
         type: 'PUT',
@@ -112,11 +112,33 @@ const loadcardInfo = function() {
         success: function (data) {
             console.log("Получил ответ с чеками ... ");
             let answer = JSON.parse(data);
-            console.log(JSON.stringify(answer));
+            
+            var count = 0; // счётчик; планировала, чтобы из плученног списка в карточки заносились только первые пять чекв со статусом LOADED;
+            for (var i in answer) {
+                if (answer.hasOwnProperty(i)){
+                    if (answer[i]['meta']['status'] == "LOADED") {
+                        console.log(answer[i]['meta']['sum']);   
+                        console.log(answer[i]['meta']['date']);
+                        count = count + 1;
+                        /*var text = answer[i]['meta']['date']+ '\n' + answer[i]['meta']['sum'];
+                        var rec_1 = new Vue({
+                            el: '#card-1',
+                            data: {
+                                message: text.toLocaleString()
+                            }
+                        })
+                        
+                    }
+                    */
+                    if (count > 5) {
+                        break;
+                    }                    
+                }
+            }
         },
         error: function (xhr) {
             console.log("Не удалось получить список чеков!");
-            //alert ("Error! Could not perform request");
+            alert ("Error! Could not perform request");
             let answerString = JSON.stringify(xhr);
             console.log(answerString);
         }
