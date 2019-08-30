@@ -2,7 +2,6 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <title>Поиск чека - Receipt</title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
@@ -70,7 +69,7 @@
           </form>
         </div>
         <div class="col" id="results">
-          <table class="table" id="result-table">
+          <table class="table" v-show="items.length > 0">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -79,21 +78,35 @@
                 <th scope="col">Количество</th>
               </tr>
             </thead>
-            <tbody><!-- There will be printer resulting table --></tbody>
+            <tbody>
+              <tr v-for="(item, id) in items">
+                <th>{{id}}</th>
+                <td>{{item.text}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.amount}}</td>
+              </tr>
+            </tbody>
           </table>
-          <table class="table-sm" id="result-meta-table">
+          <table class="table-sm" v-show="Object.keys(meta).length > 0">
             <thead>
               <tr>
                 <th scope="col">Название</th>
                 <th scope="col">Значение</th>
               </tr>
             </thead>
-            <tbody><!-- There will be printer resulting table --></tbody>
+            <tbody>
+              <tr v-for="(value, name) in meta">
+                <th>{{ name }}</th>
+                <td>{{ value }}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
             integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
