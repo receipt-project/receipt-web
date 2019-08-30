@@ -32,7 +32,7 @@
         </ul>
       </div>
     </nav>
-    <div class="container">
+    <div class="container" id="application">
       <div class="row">
         <div class="col-lg-3 col-sm-4 col-12">
           <form class="main">
@@ -40,24 +40,24 @@
               <legend>Проверка чека</legend>
               <div class="form-group">
                 <label for="fn">ФН, Фискальный номер</label>
-                <input type="text" class="form-control" name="fn" id="fn">
+                <input type="text" class="form-control" id="fn" v-model="form.fn">
               </div>
               <div class="form-group">
-                <label for="i">ФД, Фискальный документ</label>
-                <input type="text" class="form-control" name="i" id="i">
+                <label for="fd">ФД, Фискальный документ</label>
+                <input type="text" class="form-control" id="fd" v-model="form.fd">
               </div>
               <div class="form-group">
                 <label for="fp">ФП, Фискальный признак</label>
-                <input type="text" class="form-control" name="fp" id="fp">
+                <input type="text" class="form-control" id="fp" v-model="form.fp">
               </div>
               <div class="form-group">
                 <label for="s">Сумма</label>
-                <input type="text" class="form-control" name="s" id="s" placeholder="0.00">
+                <input type="text" class="form-control" id="s" placeholder="0.00" v-model="form.summary">
               </div>
               <div class="form-group">
                 <label for="time">Время</label>
-                <input type="text" class="form-control" name="time" id="time">
-                <input type="date" class="form-control" name="date" id="date">
+                <input type="text" class="form-control" id="time" v-model="timeStr">
+                <input type="date" class="form-control" id="date" v-model="dateStr">
               </div>
               <div class="form-group">
                 <input type="button" class="btn btn-primary" value="Отправить" id="submit"
@@ -68,7 +68,7 @@
             </fieldset>
           </form>
         </div>
-        <div class="col" id="results">
+        <div class="col">
           <table class="table" v-show="items.length > 0">
             <thead>
               <tr>
