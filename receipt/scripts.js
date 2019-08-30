@@ -64,20 +64,18 @@ $(document).ready(function () {
 });
 
 const getFormParameters = function () {
-    var fn = document.querySelector('#fn');
-    var fd = document.querySelector('#i');
-    var fp = document.querySelector('#fp');
-    var s  = document.querySelector('#s'); 
-    var time = document.querySelector('#time');
-    var dateF = document.querySelector('#date');
-    let parameters = 
-        "fn="  + fn.value + 
-        "&i="  + fd.value + 
-        "&fp=" + fp.value + 
-        "&s="  + s.value  + 
-        "&t="  + dateF.value.split('-').join('') + 
-        "T"    + time.value.split(':').join('');
-    return parameters;
+    let fn = document.querySelector('#fn');
+    let fd = document.querySelector('#i');
+    let fp = document.querySelector('#fp');
+    let s  = document.querySelector('#s');
+    let time = document.querySelector('#time');
+    let dateF = document.querySelector('#date');
+    return "fn=" + fn.value +
+        "&i=" + fd.value +
+        "&fp=" + fp.value +
+        "&s=" + s.value +
+        "&t=" + dateF.value.split('-').join('') +
+        "T" + time.value.split(':').join('');
 };
 
 const handleShare = function () {
