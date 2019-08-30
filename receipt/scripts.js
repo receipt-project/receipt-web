@@ -81,9 +81,11 @@ const getFormParameters = function () {
 };
 
 const handleShare = function () {
-    let location = new URL(window.location.href);
-    let link = location.origin + location.pathname + "?" + getFormParameters();
-    history.pushState(null, null, link);
+    if (dataIsValid()) {
+        let location = new URL(window.location.href);
+        let link = location.origin + location.pathname + "?" + getFormParameters();
+        history.pushState(null, null, link);
+    }
 };
 
 const setDefaultTime = function() {
@@ -97,4 +99,26 @@ const setDefaultTime = function() {
         date.getFullYear().toString() + 
         '-' + (date.getMonth() + 1).toString().padStart(2, 0) + 
         '-' +  date.getDate().toString().padStart(2, 0);
+};
+
+const dataIsValid = function() {
+    let parameters = ['#fn','#i','#fp','#s'];
+    var checked = 0;
+    for (let i in parameters){
+        if (document.querySelector(parameters[i]).value.match(/^\d+$/g)) {
+            checked += 1;
+        }
+    }
+    var time = document.querySelector('#time').value.split(':').join('');
+    if (time[0] < "3" && time[2] < "6" && time.match(/^\d+$/g)) {
+        checked += 1;
+    } else {
+        alert ("Проверьте значение времени!");
+    }
+    if (checked == 5) {
+        return true;
+    } else {
+        alert ("Проверьте правильность введенных данных! Значения полей должны содержать только цифры!");
+        return false;
+    }
 };
