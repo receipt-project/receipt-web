@@ -1,3 +1,42 @@
+Vue.component('receipt-card', {
+  props: ['meta'],
+  template:
+    '<div class="card">' +
+    '  <div class="card-header">{{meta.place}}</div>' +
+    '  <div class="card-body">' +
+    '    <p class="card-text">' +
+    '     <p>' +
+    '     {{date}}' +
+    '     </p> ' +
+    '      <p>' +
+    '        {{meta.sum}} рублей.' +
+    '      </p>' +
+    '    </p>' +
+    '    <a v-bind:href="href" class="btn btn-primary">Открыть</a>' +
+    '  </div>' +
+    '</div>',
+  computed: {
+    date: function () {
+      let timestamp = this.meta.date;
+      let date = new Date();
+      date.setTime(timestamp * 1000);
+      return date;
+    },
+    datetimestr: function () {
+      let date = this.date;
+      let year = date.getFullYear().toString();
+      let month = (date.getMonth() + 1).toString().padStart(2, 0);
+      let day = date.getDate().toString().padStart(2, 0);
+      let hour = date.getHours().toString().padStart(2, 0);
+      let minute = date.getMinutes().toString().padStart(2, 0);
+      return `${year}${month}${day}T${hour}${minute}`;
+    },
+    href: function () {
+      return `/?fn=${this.meta.fn}&i=${this.meta.fd}&fp=${this.meta.fp}&s=${this.meta.sum}&t=${this.datetimestr}`;
+    }
+  }
+})
+
 var app = new Vue({
   el: '#application',
   data: {
@@ -130,18 +169,23 @@ const handleShare = function () {
 $(document).ready(function () {
 });
 
-const loadcardInfo = function () {
+
+const loadCards = function () {
+  $("#load-cards").attr('disabled', true);
+  setTimeout(function () {
+    $("#load-cards").attr('disabled', false);
+  }, 5000);
   console.log("Отправил запрос на список чеков ... ");
   $.ajax({
     url: "/rest/report",
     type: 'PUT',
     contentType: 'application/json',
-    data: '{"meta":{},"items":{}}',
+    data: '{"meta":{},"items":{"price_min": 50000}}',
     context: document.body,
     success: function (data) {
       console.log("Получил ответ с чеками ... " + data);
       let answer = JSON.parse(data);
-      answer = answer.slice(0, 50).map(it => it.meta).filter(it => it.status === "LOADED").slice(0, 10);
+      answer = answer.slice(-100).map(it => it.meta).filter(it => it.status === "LOADED").slice(-12).reverse();
       app.cards = answer;
     },
     error: function (xhr) {
@@ -152,3 +196,4 @@ const loadcardInfo = function () {
     }
   })
 };
+

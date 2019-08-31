@@ -34,7 +34,7 @@
     </nav>
     <div class="container" id="application">
       <div class="row">
-        <div class="col-lg-3 col-sm-4 col-12">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
           <form class="main">
             <fieldset>
               <legend>Проверка чека</legend>
@@ -64,6 +64,8 @@
                        onclick="handleFormSubmit()">
                 <input type="button" class="btn btn-secondary" value="Поделиться" id="share"
                        onclick="handleShare()">
+                <input type="button" class="btn btn-secondary" value="Другие чеки" id="load-cards"
+                       onclick="loadCards()">
               </div>
             </fieldset>
           </form>
@@ -103,17 +105,9 @@
           </table>
         </div>
       </div>
-      <div class="card" style="width: 18rem;" >
-        <div class="card-header">
-          Чек №1
-        </div>
-        <div class="card-body">
-          <p class="card-text">
-          <div id="card-1">
-            message
-          </div>
-          </p>
-          <a href="" class="btn btn-primary">Открыть</a>
+      <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12" v-for="card in cards">
+          <receipt-card v-bind:meta="card"></receipt-card>
         </div>
       </div>
     </div>
