@@ -1,146 +1,154 @@
+var app = new Vue({
+  el: '#application',
+  data: {
+    items: [],
+    form: {
+      fn: "",
+      fd: "",
+      fp: "",
+      summary: "",
+      date: new Date()
+    },
+    meta: {},
+    cards: {}
+  },
+  computed: {
+    /**
+     * String representing date in format HH:MM
+     */
+    timeStr: {
+      get: function () {
+        let hour = this.form.date.getHours().toString().padStart(2, 0);
+        let minute = this.form.date.getMinutes().toString().padStart(2, 0);
+        return `${hour}:${minute}`;
+      },
+      set: function (str) {
+        if (str != null && str.match(/^\d{2}:\d{2}$/g)) {
+          let hour = str.substr(0, 2);
+          let minute = str.substr(3, 2);
+          this.form.date.setHours(hour, minute)
+        }
+      }
+    },
+    /**
+     * String representing date in format YYYY-MM-DD
+     */
+    dateStr: {
+      get: function () {
+        let date = this.form.date;
+        let year = date.getFullYear().toString();
+        let month = (date.getMonth() + 1).toString().padStart(2, 0);
+        let day = date.getDate().toString().padStart(2, 0);
+        return `${year}-${month}-${day}`;
+      },
+      set: function (str) {
+        if (str != null && str.match(/^\d{4}-\d{2}-\d{2}$/g)) {
+          let year = parseInt(str.substr(0, 4));
+          let month = parseInt(str.substr(5, 2)) - 1; // 0-based month required
+          let day = parseInt(str.substr(8, 2));
+          this.form.date.setFullYear(year, month, day)
+        }
+      }
+    },
+    /**
+     * String representing date in format YYYYMMDDTHHMM (T is just a letter)
+     */
+    datetime: {
+      get: function () {
+        let date = this.form.date;
+        let year = date.getFullYear().toString();
+        let month = (date.getMonth() + 1).toString().padStart(2, 0);
+        let day = date.getDate().toString().padStart(2, 0);
+        let hour = date.getHours().toString().padStart(2, 0);
+        let minute = date.getMinutes().toString().padStart(2, 0);
+        return `${year}${month}${day}T${hour}${minute}`;
+      },
+      set: function (str) {
+        if (str != null && str.match(/^\d{4}\d{2}\d{2}T\d{2}\d{2}$/g)) {
+          let year = parseInt(str.substr(0, 4));
+          let month = parseInt(str.substr(4, 2)) - 1;// 0-based month required
+          let day = parseInt(str.substr(6, 2));
+          let hour = parseInt(str.substr(str.length - 4, 2));
+          let minute = parseInt(str.substr(str.length - 2, 2));
+          this.form.date.setFullYear(year, month, day);
+          this.form.date.setHours(hour, minute);
+        }
+      }
+    }
+  },
+  methods: {
+    getQueryParameters: function () {
+      return `fn=${app.form.fn}&i=${app.form.fd}&fp=${app.form.fp}&s=${app.form.summary}&t=${app.datetime}`
+    },
+    setFormFromQueryParameters: function (parameters) {
+      this.form.fn = parameters.get("fn");
+      this.form.fd = parameters.get("i");
+      this.form.fp = parameters.get("fp");
+      this.form.summary = parameters.get("s");
+      this.datetime = parameters.get("t");
+    }
+  },
+  created: function () {
+    this.setFormFromQueryParameters(new URL(window.location.href).searchParams);
+  }
+});
+
+/**
+ * Serializes form and performs request to rest-api to fetch receipt data.
+ */
 const handleFormSubmit = function () {
-    let parameters = getFormParameters();
-    let myurl = "http://receipt.shefer.space/rest/get?" + parameters;
-    $("#submit").attr('disabled', true); 
-    setTimeout(function() { 
-        $("#submit").attr('disabled', false); 
-    }, 5000); 
-    $.ajax({
-        url: myurl,
-        context: document.body,
-        success: function (data) {
-            let answer = JSON.parse(data);
-            printToTable(answer);
-            console.log(JSON.stringify(answer));
-        },
-        error: function (xhr) {
-            alert("Error! Could not perform request");
-            let answerString = JSON.stringify(xhr);
-            console.log(answerString);
-        }
-    });
+  $("#submit").attr('disabled', true);
+  setTimeout(function () {
+    $("#submit").attr('disabled', false);
+  }, 5000);
+  $.ajax({
+    url: `/rest/get?${app.getQueryParameters()}`,
+    context: document.body,
+    success: function (data) {
+      let answer = JSON.parse(data);
+      app.items = answer.items;
+      app.meta = answer.meta;
+      console.log(JSON.stringify(answer));
+    },
+    error: function (xhr) {
+      alert("Error! Could not perform request");
+      let answerString = JSON.stringify(xhr);
+      console.log(answerString);
+    }
+  });
 };
 
-const printToTable = function (data) {
-    const tbody = $("#result-table tbody");
-    tbody.empty();
-    const items = data.items;
-    for (let i = 0; i < items.length; i++) {
-        let id = i + 1;
-        let text = items[i].text;
-        let price = items[i].price;
-        let amount = items[i].amount;
-        let row = `<tr><th scope="row">${id}</th><td>${text}</td><td>${price}</td><td>${amount}</td></tr>`;
-        tbody.append(row);
-    }
-    const tmetabody = $("#result-meta-table tbody");
-    tmetabody.empty();
-    const meta = data.meta;
-    for (let property in meta) {
-        if (meta.hasOwnProperty(property)) {
-            let row = `<tr><th scope="row">${property}</th><td>${meta[property]}</td></tr>`;
-            tmetabody.append(row);
-        }
-    }
-};
-
-const loadParameters = function () {
-    let url = new URL(window.location.href);
-    let parameters = url.searchParams;
-    $("input#fn").val(parameters.get("fn"));
-    $("input#i").val(parameters.get("i"));
-    $("input#fp").val(parameters.get("fp"));
-    $("input#s").val(parameters.get("s"));
-    var n = parameters.get("t").length;
-    var time = parameters.get("t").substr(n-4,2) + ":" + parameters.get("t").substr(n-2,2);
-    var date = parameters.get("t").substr(0,4)   + "-" + parameters.get("t").substr(4,2) + "-" + parameters.get("t").substr(6,2);	
-    $("input#time").val(time);
-    $("input#date").val(date);
+/**
+ * Serializes form and sets is as query to the address line
+ */
+const handleShare = function () {
+  let url = new URL(window.location.href);
+  let link = url.origin + url.pathname + "?" + app.getQueryParameters();
+  window.history.pushState(null, null, link);
 };
 
 $(document).ready(function () {
-    setDefaultTime();
-    loadParameters();
-    loadcardInfo();
 });
 
-const getFormParameters = function () {
-    var fn = document.querySelector('#fn');
-    var fd = document.querySelector('#i');
-    var fp = document.querySelector('#fp');
-    var s  = document.querySelector('#s'); 
-    var time = document.querySelector('#time');
-    var dateF = document.querySelector('#date');
-    let parameters = 
-        "fn="  + fn.value + 
-        "&i="  + fd.value + 
-        "&fp=" + fp.value + 
-        "&s="  + s.value  + 
-        "&t="  + dateF.value.split('-').join('') + 
-        "T"    + time.value.split(':').join('');
-    return parameters;
-};
-
-const handleShare = function () {
-    let location = new URL(window.location.href);
-    let link = location.origin + location.pathname + "?" + getFormParameters();
-    history.pushState(null, null, link);
-};
-
-const setDefaultTime = function() {
-    var timeField = document.querySelector('#time');
-    var dateField = document.querySelector('#date');
-    var date = new Date();
-    timeField.value = 
-        (date.getHours().toString().length < 2 ? ("0" + date.getHours().toString()) : date.getHours().toString()) + 
-        ':' + (date.getMinutes().toString().length < 2 ? ("0" + date.getMinutes().toString()) : date.getMinutes().toString());
-    dateField.value = 
-        date.getFullYear().toString() + 
-        '-' + (date.getMonth() + 1).toString().padStart(2, 0) + 
-        '-' +  date.getDate().toString().padStart(2, 0);
-};
-
-const loadcardInfo = function() {
-    console.log("Отправил запрос на список чеков ... ");
-    let myurl = "http://receipt.shefer.space/rest/report";
-    $.ajax({
-        url: myurl,
-        type: 'PUT',
-        contentType: 'application/json',
-        data: '{"meta":{},"items":{}}',
-        context: document.body,
-        success: function (data) {
-            console.log("Получил ответ с чеками ... ");
-            let answer = JSON.parse(data);
-            
-            var count = 0; // счётчик; планировала, чтобы из плученног списка в карточки заносились только первые пять чекв со статусом LOADED;
-            for (var i in answer) {
-                if (answer.hasOwnProperty(i)){
-                    if (answer[i]['meta']['status'] == "LOADED") {
-                        console.log(answer[i]['meta']['sum']);   
-                        console.log(answer[i]['meta']['date']);
-                        count = count + 1;
-                        /*var text = answer[i]['meta']['date']+ '\n' + answer[i]['meta']['sum'];
-                        var rec_1 = new Vue({
-                            el: '#card-1',
-                            data: {
-                                message: text.toLocaleString()
-                            }
-                        })
-                        
-                    }
-                    */
-                    if (count > 5) {
-                        break;
-                    }                    
-                }
-            }
-        },
-        error: function (xhr) {
-            console.log("Не удалось получить список чеков!");
-            alert ("Error! Could not perform request");
-            let answerString = JSON.stringify(xhr);
-            console.log(answerString);
-        }
-    })
+const loadcardInfo = function () {
+  console.log("Отправил запрос на список чеков ... ");
+  $.ajax({
+    url: "/rest/report",
+    type: 'PUT',
+    contentType: 'application/json',
+    data: '{"meta":{},"items":{}}',
+    context: document.body,
+    success: function (data) {
+      console.log("Получил ответ с чеками ... " + data);
+      let answer = JSON.parse(data);
+      answer = answer.slice(0, 50).map(it => it.meta).filter(it => it.status === "LOADED").slice(0, 10);
+      app.cards = answer;
+    },
+    error: function (xhr) {
+      console.log("Не удалось получить список чеков!");
+      alert("Error! Could not perform request");
+      let answerString = JSON.stringify(xhr);
+      console.log(answerString);
+    }
+  })
 };

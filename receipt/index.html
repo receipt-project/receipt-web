@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
+  <head>
     <meta charset="utf-8"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <title>Поиск чека - Receipt</title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
@@ -11,111 +10,124 @@
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
           crossorigin="anonymous">
     <link rel="icon" href="images/icon.ico">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-expand-md navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
-            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+              aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand" href="/">Receipt</a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Проверка чека<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="team.html">О команде</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" target="_blank" href="https://github.com/ShiverAwe/Cheque-Py">Github</a>
-            </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Проверка чека<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="team.html">О команде</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://github.com/ShiverAwe/Cheque-Py">Github</a>
+          </li>
         </ul>
-    </div>
-</nav>
-<div class="container">
-    <div class="row">
+      </div>
+    </nav>
+    <div class="container" id="application">
+      <div class="row">
         <div class="col-lg-3 col-sm-4 col-12">
-            <form class="main">
-                <fieldset>
-                    <legend>Проверка чека</legend>
-                    <div class="form-group">
-                        <label for="fn">ФН, Фискальный номер</label>
-                        <input type="text" class="form-control" name="fn" id="fn">
-                    </div>
-                    <div class="form-group">
-                        <label for="i">ФД, Фискальный документ</label>
-                        <input type="text" class="form-control" name="i" id="i">
-                    </div>
-                    <div class="form-group">
-                        <label for="fp">ФП, Фискальный признак</label>
-                        <input type="text" class="form-control" name="fp" id="fp">
-                    </div>
-                    <div class="form-group">
-                        <label for="s">Сумма</label>
-                        <input type="text" class="form-control" name="s" id="s" placeholder="0.00">
-                    </div>
-                    <div class="form-group">
-                        <label for="time">Время</label>
-                        <input type="text" class="form-control" name="time" id="time">                        
-                        <input type="date" class="form-control" name="date" id="date">
-                    </div>
-                    <div class="form-group">
-                        <input type="button" class="btn btn-primary" value="Отправить" id="submit"
-                               onclick="handleFormSubmit()">
-                        <input type="button" class="btn btn-secondary" value="Поделиться" id="share"
-                               onclick="handleShare()">
-                    </div>
-                </fieldset>
-            </form>
+          <form class="main">
+            <fieldset>
+              <legend>Проверка чека</legend>
+              <div class="form-group">
+                <label for="fn">ФН, Фискальный номер</label>
+                <input type="text" class="form-control" id="fn" v-model="form.fn">
+              </div>
+              <div class="form-group">
+                <label for="fd">ФД, Фискальный документ</label>
+                <input type="text" class="form-control" id="fd" v-model="form.fd">
+              </div>
+              <div class="form-group">
+                <label for="fp">ФП, Фискальный признак</label>
+                <input type="text" class="form-control" id="fp" v-model="form.fp">
+              </div>
+              <div class="form-group">
+                <label for="s">Сумма</label>
+                <input type="text" class="form-control" id="s" placeholder="0.00" v-model="form.summary">
+              </div>
+              <div class="form-group">
+                <label for="time">Время</label>
+                <input type="text" class="form-control" id="time" v-model="timeStr">
+                <input type="date" class="form-control" id="date" v-model="dateStr">
+              </div>
+              <div class="form-group">
+                <input type="button" class="btn btn-primary" value="Отправить" id="submit"
+                       onclick="handleFormSubmit()">
+                <input type="button" class="btn btn-secondary" value="Поделиться" id="share"
+                       onclick="handleShare()">
+              </div>
+            </fieldset>
+          </form>
         </div>
-        <div class="col" id="results">
-            <table class="table" id="result-table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Название</th>
-                    <th scope="col">Цена</th>
-                    <th scope="col">Количество</th>
-                </tr>
-                </thead>
-                <tbody><!-- There will be printer resulting table --></tbody>
-            </table>
-            <table class="table-sm" id="result-meta-table">
-                <thead>
-                <tr>
-                    <th scope="col">Название</th>
-                    <th scope="col">Значение</th>
-                </tr>
-                </thead>
-                <tbody><!-- There will be printer resulting table --></tbody>
-            </table>
+        <div class="col">
+          <table class="table" v-show="items.length > 0">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Название</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Количество</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, id) in items">
+                <th>{{id}}</th>
+                <td>{{item.text}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.amount}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table-sm" v-show="Object.keys(meta).length > 0">
+            <thead>
+              <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Значение</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(value, name) in meta">
+                <th>{{ name }}</th>
+                <td>{{ value }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-    </div>
-    <div class="card" style="width: 18rem;" name="card-1" id="card-1">
+      </div>
+      <div class="card" style="width: 18rem;" >
         <div class="card-header">
-            Чек №1
+          Чек №1
         </div>
         <div class="card-body">
-            <p class="card-text">
-                <div id="card-1">
-                    message
-                </div>
-            </p>
-            <a href="#" class="btn btn-primary">Открыть</a>
+          <p class="card-text">
+          <div id="card-1">
+            message
+          </div>
+          </p>
+          <a href="" class="btn btn-primary">Открыть</a>
         </div>
+      </div>
     </div>
-</div>
 
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="scripts.js"></script>
 
-</body>
+  </body>
 </html>
