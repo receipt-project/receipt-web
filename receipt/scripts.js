@@ -1,20 +1,23 @@
+const timestampToDate = function (timestamp) {
+  let date = new Date();
+  date.setTime(timestamp * 1000);
+  return date;
+};
+
 Vue.component('receipt-card', {
   props: ['meta'],
-  template:
-    '<div class="card">' +
-    '  <div class="card-header">{{meta.place}}</div>' +
-    '  <div class="card-body">' +
-    '    <p class="card-text">' +
-    '     <p>' +
-    '     {{date}}' +
-    '     </p> ' +
-    '      <p>' +
-    '        {{meta.sum}} рублей.' +
-    '      </p>' +
-    '    </p>' +
-    '    <a v-bind:href="href" class="btn btn-primary">Открыть</a>' +
-    '  </div>' +
-    '</div>',
+  template: `
+    <div class="card" v-bind:class="cardStyle">
+      <div class="card-header">{{meta.place}}</div>
+      <div class="card-body">
+        <p class="card-text">
+          <p>{{date}}</p>
+          <p>{{meta.sum}} рублей.</p>
+        </p>
+        <a v-bind:href="href" class="btn btn-primary">Открыть</a>
+      </div>
+    </div>
+  `,
   computed: {
     date: function () {
       let timestamp = this.meta.date;
@@ -22,7 +25,7 @@ Vue.component('receipt-card', {
       date.setTime(timestamp * 1000);
       return date;
     },
-    datetimestr: function () {
+    receiptTime: function () {
       let date = this.date;
       let year = date.getFullYear().toString();
       let month = (date.getMonth() + 1).toString().padStart(2, 0);
@@ -32,9 +35,55 @@ Vue.component('receipt-card', {
       return `${year}${month}${day}T${hour}${minute}`;
     },
     href: function () {
-      return `/?fn=${this.meta.fn}&i=${this.meta.fd}&fp=${this.meta.fp}&s=${this.meta.sum}&t=${this.datetimestr}`;
+      return `/?fn=${this.meta.fn}&i=${this.meta.fd}&fp=${this.meta.fp}&s=${this.meta.sum}&t=${this.receiptTime}`;
+    },
+    cardStyle: function () {
+      let status = this.meta.status;
+      if (status === "LOADED") {
+        return ""
+      } else if (status === "FAILED") {
+        return "border-danger"
+      } else if (status === "UNDEFINED") {
+        return "border-warning"
+      }
     }
   }
+})
+
+Vue.component('receipt-meta', {
+  props: ["meta"],
+  template: `
+    <table class="table-sm" v-show="isNotEmpty">
+        <tr v-for="(value, name) in metaPostProcessed">
+          <th>{{name}}</th>
+          <td>{{value}}</td>
+        </tr>
+      </tbody>
+    </table>
+  `,
+  computed: {
+    isNotEmpty: function () {
+      return Object.keys(this.meta).length > 0
+    },
+    metaPostProcessed: function () {
+      let result = {};
+      let meta = this.meta;
+      for (let key in meta) {
+        if (key === "date") {
+          result["Дата"] = timestampToDate(meta["date"]);
+        } else if (key === "place") {
+          result["Магазин"] = meta["place"];
+        } else if (key === "provider") {
+          result["Провайдер"] = meta["provider"];
+        } else if (key === "sum") {
+          result["Сумма"] = meta["sum"];
+        } else {
+          result[key] = meta[key];
+        }
+      }
+      return result;
+    }
+  },
 })
 
 var app = new Vue({
@@ -55,7 +104,7 @@ var app = new Vue({
     /**
      * String representing date in format HH:MM
      */
-    timeStr: {
+    timeField: {
       get: function () {
         let hour = this.form.date.getHours().toString().padStart(2, 0);
         let minute = this.form.date.getMinutes().toString().padStart(2, 0);
@@ -72,7 +121,7 @@ var app = new Vue({
     /**
      * String representing date in format YYYY-MM-DD
      */
-    dateStr: {
+    dateField: {
       get: function () {
         let date = this.form.date;
         let year = date.getFullYear().toString();
@@ -92,7 +141,7 @@ var app = new Vue({
     /**
      * String representing date in format YYYYMMDDTHHMM (T is just a letter)
      */
-    datetime: {
+    receiptTime: {
       get: function () {
         let date = this.form.date;
         let year = date.getFullYear().toString();
@@ -185,7 +234,7 @@ const loadCards = function () {
     success: function (data) {
       console.log("Получил ответ с чеками ... " + data);
       let answer = JSON.parse(data);
-      answer = answer.slice(-100).map(it => it.meta).filter(it => it.status === "LOADED").slice(-12).reverse();
+      answer = answer.slice(-100).map(it => it.meta).slice(-12).reverse();
       app.cards = answer;
     },
     error: function (xhr) {

@@ -56,8 +56,8 @@
               </div>
               <div class="form-group">
                 <label for="time">Время</label>
-                <input type="text" class="form-control" id="time" v-model="timeStr">
-                <input type="date" class="form-control" id="date" v-model="dateStr">
+                <input type="text" class="form-control" id="time" v-model="timeField">
+                <input type="date" class="form-control" id="date" v-model="dateField">
               </div>
               <div class="form-group">
                 <input type="button" class="btn btn-primary" value="Отправить" id="submit"
@@ -70,39 +70,18 @@
             </fieldset>
           </form>
         </div>
-        <div class="col">
-          <table class="table" v-show="items.length > 0">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Название</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Количество</th>
-              </tr>
-            </thead>
+        <div class="col-lg-9 col-md-8 col-sm-6 col-12">
+          <table class="table table-striped" v-show="items.length > 0">
             <tbody>
               <tr v-for="(item, id) in items">
-                <th>{{id}}</th>
                 <td>{{item.text}}</td>
-                <td>{{item.price}}</td>
-                <td>{{item.amount}}</td>
+                <td>{{item.price}} р.</td>
+                <td>× {{item.amount}}</td>
               </tr>
             </tbody>
           </table>
-          <table class="table-sm" v-show="Object.keys(meta).length > 0">
-            <thead>
-              <tr>
-                <th scope="col">Название</th>
-                <th scope="col">Значение</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(value, name) in meta">
-                <th>{{ name }}</th>
-                <td>{{ value }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="margin-bottom: 20px"></div>
+          <receipt-meta v-bind:meta="meta"></receipt-meta>
         </div>
       </div>
       <div class="row">
