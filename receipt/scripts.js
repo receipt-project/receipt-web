@@ -4,6 +4,41 @@ const timestampToDate = function (timestamp) {
   return date;
 };
 
+/**
+ * Gets datetime in format yyyymmddThhmm and parse it into Date object
+ * @param receiptTime string containing date and time in format yyyymmddThhmm
+ * @returns {null|Date}
+ */
+const receiptTimeToDate = function (receiptTime) {
+  let date = new Date();
+  if (receiptTime != null && receiptTime.match(/^\d{4}\d{2}\d{2}T\d{2}\d{2}$/g)) {
+    let year = parseInt(receiptTime.substr(0, 4));
+    let month = parseInt(receiptTime.substr(4, 2)) - 1;// 0-based month required
+    let day = parseInt(receiptTime.substr(6, 2));
+    let hour = parseInt(receiptTime.substr(receiptTime.length - 4, 2));
+    let minute = parseInt(receiptTime.substr(receiptTime.length - 2, 2));
+    date.setFullYear(year, month, day);
+    date.setHours(hour, minute);
+    return date;
+  } else {
+    return null;
+  }
+}
+
+/**
+ * Gets Date object and serializes it into string containing date and time in format yyyymmddThhmm
+ * @param date The instance of Date class
+ * @returns string containing date and time in format yyyymmddThhmm
+ */
+const dateToReceiptTime = function (date) {
+  let year = date.getFullYear().toString();
+  let month = (date.getMonth() + 1).toString().padStart(2, 0);
+  let day = date.getDate().toString().padStart(2, 0);
+  let hour = date.getHours().toString().padStart(2, 0);
+  let minute = date.getMinutes().toString().padStart(2, 0);
+  return `${year}${month}${day}T${hour}${minute}`;
+}
+
 Vue.component('receipt-card', {
   props: ['meta'],
   template: `
@@ -25,17 +60,8 @@ Vue.component('receipt-card', {
       date.setTime(timestamp * 1000);
       return date;
     },
-    receiptTime: function () {
-      let date = this.date;
-      let year = date.getFullYear().toString();
-      let month = (date.getMonth() + 1).toString().padStart(2, 0);
-      let day = date.getDate().toString().padStart(2, 0);
-      let hour = date.getHours().toString().padStart(2, 0);
-      let minute = date.getMinutes().toString().padStart(2, 0);
-      return `${year}${month}${day}T${hour}${minute}`;
-    },
     href: function () {
-      return `/?fn=${this.meta.fn}&i=${this.meta.fd}&fp=${this.meta.fp}&s=${this.meta.sum}&t=${this.receiptTime}`;
+      return `/?fn=${this.meta.fn}&i=${this.meta.fd}&fp=${this.meta.fp}&s=${this.meta.sum}&t=${dateToReceiptTime(this.date)}`;
     },
     cardStyle: function () {
       let status = this.meta.status;
@@ -51,9 +77,9 @@ Vue.component('receipt-card', {
 })
 
 Vue.component('receipt-meta', {
-  props: ["meta"],
+  props: ["meta", "receiptLoaded"],
   template: `
-    <table class="table-sm" v-show="isNotEmpty">
+    <table class="table-sm" v-show="receiptLoaded">
         <tr v-for="(value, name) in metaPostProcessed">
           <th>{{name}}</th>
           <td>{{value}}</td>
@@ -62,9 +88,6 @@ Vue.component('receipt-meta', {
     </table>
   `,
   computed: {
-    isNotEmpty: function () {
-      return Object.keys(this.meta).length > 0
-    },
     metaPostProcessed: function () {
       let result = {};
       let meta = this.meta;
@@ -98,7 +121,15 @@ var app = new Vue({
       date: new Date()
     },
     meta: {},
-    cards: {}
+    cards: [],
+    cardsLoaded: false,
+    cardsLoading: false,
+    currentTab: "TAB_FORM"
+  },
+  watch: {
+    currentTab: function (newValue, oldValue) {
+      if (newValue === 'TAB_CARDS') this.loadCardsOnce();
+    }
   },
   computed: {
     /**
@@ -143,25 +174,17 @@ var app = new Vue({
      */
     receiptTime: {
       get: function () {
-        let date = this.form.date;
-        let year = date.getFullYear().toString();
-        let month = (date.getMonth() + 1).toString().padStart(2, 0);
-        let day = date.getDate().toString().padStart(2, 0);
-        let hour = date.getHours().toString().padStart(2, 0);
-        let minute = date.getMinutes().toString().padStart(2, 0);
-        return `${year}${month}${day}T${hour}${minute}`;
+        return dateToReceiptTime(this.form.date)
       },
       set: function (str) {
-        if (str != null && str.match(/^\d{4}\d{2}\d{2}T\d{2}\d{2}$/g)) {
-          let year = parseInt(str.substr(0, 4));
-          let month = parseInt(str.substr(4, 2)) - 1;// 0-based month required
-          let day = parseInt(str.substr(6, 2));
-          let hour = parseInt(str.substr(str.length - 4, 2));
-          let minute = parseInt(str.substr(str.length - 2, 2));
-          this.form.date.setFullYear(year, month, day);
-          this.form.date.setHours(hour, minute);
+        const date = receiptTimeToDate(str);
+        if (date != null) {
+          this.form.date = date
         }
       }
+    },
+    receiptLoaded: function () {
+      return this.items.length > 0 || Object.keys(this.meta).length > 0
     }
   },
   methods: {
@@ -174,6 +197,16 @@ var app = new Vue({
       this.form.fp = parameters.get("fp");
       this.form.summary = parameters.get("s");
       this.datetime = parameters.get("t");
+    },
+    loadCardsOnce: function () {
+      if (!this.cardsLoaded && !this.cardsLoading) {
+        this.cardsLoading = true;
+        let request = loadCards();
+        $.when(request).done(function (res) {
+          app.cardsLoading = false;
+          app.cardsLoaded = true;
+        });
+      }
     }
   },
   created: function () {
@@ -196,6 +229,7 @@ const handleFormSubmit = function () {
       let answer = JSON.parse(data);
       app.items = answer.items;
       app.meta = answer.meta;
+      app.currentTab = "TAB_TABLE";
       console.log(JSON.stringify(answer));
     },
     error: function (xhr) {
@@ -215,34 +249,27 @@ const handleShare = function () {
   window.history.pushState(null, null, link);
 };
 
-$(document).ready(function () {
-});
-
-
+/**
+ * Return ajax future
+ */
 const loadCards = function () {
-  $("#load-cards").attr('disabled', true);
-  setTimeout(function () {
-    $("#load-cards").attr('disabled', false);
-  }, 5000);
-  console.log("Отправил запрос на список чеков ... ");
-  $.ajax({
+  return $.ajax({
     url: "/rest/report",
     type: 'PUT',
     contentType: 'application/json',
     data: '{"meta":{},"items":{"price_min": 50000}}',
     context: document.body,
     success: function (data) {
-      console.log("Получил ответ с чеками ... " + data);
+      console.log("Received recent receipts ... " + data);
       let answer = JSON.parse(data);
       answer = answer.slice(-100).map(it => it.meta).slice(-12).reverse();
       app.cards = answer;
     },
     error: function (xhr) {
-      console.log("Не удалось получить список чеков!");
-      alert("Error! Could not perform request");
-      let answerString = JSON.stringify(xhr);
-      console.log(answerString);
+      console.log("Could not receive recent receipts!");
+      let errorString = JSON.stringify(xhr);
+      console.log(errorString);
     }
-  })
+  });
 };
 
