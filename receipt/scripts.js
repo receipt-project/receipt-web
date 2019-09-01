@@ -42,7 +42,7 @@ const dateToReceiptTime = function (date) {
 Vue.component('receipt-card', {
   props: ['meta'],
   template: `
-    <div class="card" v-bind:class="cardStyle">
+    <div class="card" v-bind:class="cardStyle" style="margin-bottom: 20px;">
       <div class="card-header">{{meta.place}}</div>
       <div class="card-body">
         <p class="card-text">
