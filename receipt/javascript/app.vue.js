@@ -9,7 +9,7 @@ var app = new Vue({
       fd: "",
       fp: "",
       summary: "",
-      date: new Date()
+      date: moment()
     },
     meta: {},
     cards: [],
@@ -33,15 +33,12 @@ var app = new Vue({
      */
     timeField: {
       get: function () {
-        let hour = this.form.date.getHours().toString().padStart(2, 0);
-        let minute = this.form.date.getMinutes().toString().padStart(2, 0);
-        return `${hour}:${minute}`;
+        return this.form.date.format("HH:mm");
       },
       set: function (str) {
         if (str != null && str.match(/^\d{2}:\d{2}$/g)) {
-          let hour = str.substr(0, 2);
-          let minute = str.substr(3, 2);
-          this.form.date.setHours(hour, minute)
+          this.form.date.set("hour", str.substr(0, 2));
+          this.form.date.set("minute", str.substr(3, 2));
         }
       }
     },
@@ -51,34 +48,26 @@ var app = new Vue({
      */
     dateField: {
       get: function () {
-        let date = this.form.date;
-        let year = date.getFullYear().toString();
-        let month = (date.getMonth() + 1).toString().padStart(2, 0);
-        let day = date.getDate().toString().padStart(2, 0);
-        return `${year}-${month}-${day}`;
+        return this.form.date.format("YYYY-MM-DD");
       },
       set: function (str) {
         if (str != null && str.match(/^\d{4}-\d{2}-\d{2}$/g)) {
-          let year = parseInt(str.substr(0, 4));
-          let month = parseInt(str.substr(5, 2)) - 1; // 0-based month required
-          let day = parseInt(str.substr(8, 2));
-          this.form.date.setFullYear(year, month, day)
+          this.form.date.set("year", parseInt(str.substr(0, 4)));
+          this.form.date.set("month", parseInt(str.substr(5, 2)) - 1);
+          this.form.date.set("date", parseInt(str.substr(8, 2)));
         }
       }
     },
 
     /**
-     * String representing date in format YYYYMMDDTHHMM (T is just a letter)
+     * String representing date in format YYYYMMDDTHHmm (T is just a letter)
      */
     receiptTime: {
       get: function () {
-        return dateToReceiptTime(this.form.date)
+        return this.form.date.format(RECEIPT_DATETIME_FORMAT)
       },
       set: function (str) {
-        const date = receiptTimeToDate(str);
-        if (date != null) {
-          this.form.date = date
-        }
+        this.form.date = moment(str, RECEIPT_DATETIME_FORMAT);
       }
     },
 
@@ -90,7 +79,7 @@ var app = new Vue({
   methods: {
 
     getQueryParameters: function () {
-      return `fn=${app.form.fn}&i=${app.form.fd}&fp=${app.form.fp}&s=${app.form.summary}&t=${app.datetime}`
+      return `fn=${this.form.fn}&i=${this.form.fd}&fp=${this.form.fp}&s=${this.form.summary}&t=${this.receiptTime}`;
     },
 
     setFormFromQueryParameters: function (parameters) {
@@ -98,7 +87,7 @@ var app = new Vue({
       this.form.fd = parameters.get("i");
       this.form.fp = parameters.get("fp");
       this.form.summary = parameters.get("s");
-      this.datetime = parameters.get("t");
+      this.receiptTime = parameters.get("t");
     },
 
     loadCardsOnce: function () {

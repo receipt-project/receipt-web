@@ -17,13 +17,11 @@ Vue.component('receipt-card', {
 
   computed: {
     date: function () {
-      let timestamp = this.meta.date;
-      let date = new Date();
-      date.setTime(timestamp * 1000);
-      return date;
+      return moment.unix(this.meta.date).format("DD.MM.YYYY HH:mm");
     },
     href: function () {
-      return `/?fn=${this.meta.fn}&i=${this.meta.fd}&fp=${this.meta.fp}&s=${this.meta.sum}&t=${dateToReceiptTime(this.date)}`;
+      let dateStr = moment.unix(this.meta.date).format(RECEIPT_DATETIME_FORMAT);
+      return `/?fn=${this.meta.fn}&i=${this.meta.fd}&fp=${this.meta.fp}&s=${this.meta.sum}&t=${dateStr}`;
     },
     cardStyle: function () {
       let status = this.meta.status;

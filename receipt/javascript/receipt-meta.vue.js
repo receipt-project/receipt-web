@@ -18,7 +18,7 @@ Vue.component('receipt-meta', {
       let meta = this.meta;
       for (let key in meta) {
         if (key === "date") {
-          result["Дата"] = timestampToDate(meta["date"]);
+          result["Дата"] = moment.unix(meta["date"]).format("DD.MM.YYYY HH:mm");
         } else if (key === "place") {
           result["Магазин"] = meta["place"];
         } else if (key === "provider") {
