@@ -40,17 +40,16 @@ const handleShare = function () {
  * Return ajax future
  */
 const loadCards = function () {
+  let MAX_RECEIPTS = 12;
   return $.ajax({
     url: REST_ENDPOINT + "/report",
     type: 'PUT',
     contentType: 'application/json',
-    data: '{"meta":{},"items":{"price_min": 50000}}',
+    data: `{"meta":{"sort_by":"date","limit":${MAX_RECEIPTS},"asc":false},"items":{"price_min": 50000}}`,
     context: document.body,
     success: function (data) {
       console.log("Received recent receipts ... " + data);
-      let answer = JSON.parse(data);
-      answer = answer.slice(-100).map(it => it.meta).slice(-12).reverse();
-      app.cards = answer;
+      app.cards = JSON.parse(data).map(it => it.meta);
     },
     error: function (xhr) {
       console.log("Could not receive recent receipts!");
