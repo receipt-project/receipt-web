@@ -8,7 +8,7 @@ receipt:
 admin:
 	mkdir -p /var/www/receipt/static/admin/
 	rm -rf /var/www/receipt/static/admin/*
-	cp -r receipt/ /var/www/receipt/admin/
+	cp -r admin/ /var/www/receipt/static/
 
 
 .PHONY: admin receipt
