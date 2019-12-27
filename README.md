@@ -12,3 +12,5 @@ To install contents of the admin page use
 make admin
 ```
 
+## Codestyle
+Please, use `.editorconfig` file to setup the codestyle for your editor
