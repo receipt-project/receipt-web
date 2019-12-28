@@ -8,7 +8,7 @@
 
 <script>
     export default {
-        name: "HeaderItem",
+        name: "NavigationItem",
         props: {
             targetRoute: String,
             text: String
