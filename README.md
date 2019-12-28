@@ -14,3 +14,8 @@ make admin
 
 ## Codestyle
 Please, use `.editorconfig` file to setup the codestyle for your editor
+
+## Tech stack
+- Vue.js
+- Bootstrap
+- Jquery
