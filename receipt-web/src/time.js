@@ -1,0 +1,2 @@
+export const RECEIPT_DATETIME_FORMAT = "YYYYMMDDTHHmm";
+
