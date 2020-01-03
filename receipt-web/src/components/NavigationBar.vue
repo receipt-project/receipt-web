@@ -7,8 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
             <a class="navbar-brand" href="/">Receipt</a>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <NavigationItem target-route="/" text="Найти чек"/>
-                <NavigationItem target-route="/receipt" text="Чек"/>
+                <NavigationItem target-route="/" text="Получить чек"/>
                 <NavigationItem target-route="/recent" text="История"/>
             </ul>
         </div>

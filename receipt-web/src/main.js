@@ -4,8 +4,8 @@ import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-import SearchForm from "@/components/SearchForm";
-import RecentReceipts from "@/components/RecentReceipts";
+import SearchForm from "@/components/pages/SearchForm";
+import RecentPage from "@/components/pages/RecentPage";
 
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
@@ -13,7 +13,7 @@ Vue.use(VueRouter);
 Vue.config.productionTip = false;
 
 const routes = [
-  {path: "/recent", component: RecentReceipts},
+  {path: "/recent", component: RecentPage},
   {path: "*", component: SearchForm}
 ];
 

@@ -13,7 +13,7 @@
     import axios from "axios";
 
     export default {
-        name: "RecentReceipts",
+        name: "RecentPage",
         data: function () {
             return {
                 receipts: []
