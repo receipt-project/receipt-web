@@ -16,7 +16,8 @@
 </template>
 
 <script>
-    import NavigationItem from "./NavigationItem";
+    import NavigationItem from "@/components/NavigationItem";
+
     export default {
         name: "NavigationBar",
         components: {

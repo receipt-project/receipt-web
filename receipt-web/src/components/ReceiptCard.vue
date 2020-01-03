@@ -1,12 +1,12 @@
 <template>
     <div class="card" v-bind:class="cardStyle" style="margin-bottom: 20px;">
-        <div class="card-header">{{meta.place}}</div>
+        <div class="card-header">{{receipt.place}}</div>
         <div class="card-body">
             <p class="card-text">
-                {{date}}
+                {{date.format("DD.MM.YYYY HH:mm")}}
             </p>
             <p class="card-text">
-                {{meta.sum}} рублей.
+                {{receipt.sum}} рублей.
             </p>
             <a v-bind:href="href" class="btn btn-primary">Открыть</a>
         </div>
@@ -14,25 +14,28 @@
 </template>
 
 <script>
-    import {RECEIPT_DATETIME_FORMAT} from "../time.js"
+    import {RECEIPT_DATETIME_FORMAT} from "@/components/utils/time.js"
     import moment from "moment"
 
     export default {
         name: 'ReceiptCard',
         props: {
-            meta: Object
+            receipt: {
+                type: Object,
+                default: () => {}
+            }
         },
         computed: {
             date: function () {
-                return moment.unix(this.meta.date).format("DD.MM.YYYY HH:mm");
+                return moment(this.receipt.date, "YYYY-MM-DD'T'HH:mm:ss");
             },
             href: function () {
-                let dateStr = moment.unix(this.meta.date).format(RECEIPT_DATETIME_FORMAT);
-                return `/?fn=${this.meta.fn}&i=${this.meta.fd}&fp=${this.meta.fp}&s=${this.meta.sum}&t=${dateStr}`;
+                let dateStr = this.date.format(RECEIPT_DATETIME_FORMAT);
+                return `/?fn=${this.receipt.fn}&i=${this.receipt.fd}&fp=${this.receipt.fp}&s=${this.receipt.sum}&t=${dateStr}`;
             },
 
             cardStyle: function () {
-                let status = this.meta.status;
+                let status = this.receipt.status;
                 if (status === "FAILED") {
                     return "border-danger"
                 }

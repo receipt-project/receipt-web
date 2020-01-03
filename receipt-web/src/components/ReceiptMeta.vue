@@ -1,5 +1,5 @@
 <template>
-    <table class="table-sm" v-show="receiptLoaded">
+    <table class="table-sm">
         <tbody>
             <tr v-for="(value, name) in metaPostProcessed" v-bind:key="value">
                 <th>{{name}}</th>
@@ -14,8 +14,7 @@
     export default {
         name: "ReceiptMeta",
         props: {
-            meta: Object,
-            receiptLoaded: Object
+            meta: Object
         },
         computed: {
             metaPostProcessed: function () {

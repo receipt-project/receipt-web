@@ -1,11 +1,12 @@
 <template>
     <div id="app">
-        <NavigationBar/>
+        <navigation-bar/>
+        <router-view/>
     </div>
 </template>
 
 <script>
-    import NavigationBar from "./components/NavigationBar";
+    import NavigationBar from "@/components/NavigationBar";
 
     export default {
         name: 'app',
