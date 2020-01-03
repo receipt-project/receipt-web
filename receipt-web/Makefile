@@ -1,5 +1,8 @@
 build:
 	npm run build
 
-run: build
-	npm run serve
+# Run application on temporary web-server in
+# development mode
+demo:
+	npm run demo
+
