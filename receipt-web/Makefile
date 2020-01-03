@@ -12,3 +12,5 @@ build: install-dependencies
 demo: install-dependencies
 	npm run demo
 
+deploy: build
+	rsync -avh --delete dist/* /var/www/receipt/static/receipt_vue
