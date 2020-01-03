@@ -12,8 +12,8 @@
 </template>
 
 <script>
-    import ReceiptMeta from "@/components/ReceiptMeta";
-    import ReceiptItems from "@/components/ReceiptItems";
+    import ReceiptMeta from "./ReceiptMeta";
+    import ReceiptItems from "./ReceiptItems";
     import axios from "axios";
 
     export default {
