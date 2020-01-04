@@ -28,9 +28,9 @@
                         </div>
                         <div class="form-group">
                             <input type="button" class="btn btn-primary btn-block" value="Отправить" id="submit"
-                                   onclick="handleFormSubmit()">
+                                   v-on:click="handleFormSubmit()">
                             <input type="button" class="btn btn-secondary btn-block" value="Поделиться" id="share"
-                                   onclick="handleShare()">
+                                   v-on:click="handleShare()">
                         </div>
                     </fieldset>
                 </form>
@@ -41,6 +41,7 @@
 
 <script>
     import moment from 'moment'
+    import axios from "axios";
 
     export default {
         name: "SearchForm",
@@ -90,11 +91,18 @@
 
         },
         methods: {
-            handleShare: function () {
+            handleShare() {
                 // TODO
             },
-            handleFormSubmit: function () {
-                // TODO
+            handleFormSubmit() {
+                axios.post("/api/create", {
+                    date: this.form.date.format("YYYYMMDDTHHmm"),
+                    fn: this.form.fn,
+                    fd: this.form.fd,
+                    fp: this.form.fp,
+                    sum: parseFloat(this.form.summary),
+                })
+                        .then(response => this.$router.push(`/receipt/${response.data}`))
             }
         }
     }
