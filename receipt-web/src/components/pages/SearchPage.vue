@@ -44,15 +44,15 @@
     import axios from "axios";
 
     export default {
-        name: "SearchForm",
-        data: function () {
+        name: "SearchPage",
+        data() {
             return {
                 form: {
-                    fn: "",
-                    fd: "",
-                    fp: "",
-                    summary: "",
-                    date: moment()
+                    fn: "8710000101660946",
+                    fd: "39907",
+                    fp: "2483022773",
+                    summary: "218.99",
+                    date: moment("30.01.2019 14:52", "DD.MM.YYYY HH:mm")
                 }
             }
         },
