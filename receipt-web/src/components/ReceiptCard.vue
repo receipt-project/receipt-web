@@ -14,7 +14,6 @@
 </template>
 
 <script>
-    import {RECEIPT_DATETIME_FORMAT} from "@/components/utils/time.js"
     import moment from "moment"
 
     export default {
@@ -30,8 +29,7 @@
                 return moment(this.receipt.date, "YYYY-MM-DD'T'HH:mm:ss");
             },
             href: function () {
-                let dateStr = this.date.format(RECEIPT_DATETIME_FORMAT);
-                return `/?fn=${this.receipt.fn}&i=${this.receipt.fd}&fp=${this.receipt.fp}&s=${this.receipt.sum}&t=${dateStr}`;
+                return `/receipt/` + this.receipt.id;
             },
 
             cardStyle: function () {
