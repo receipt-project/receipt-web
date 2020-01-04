@@ -9,6 +9,7 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <NavigationItem target-route="/" text="Получить чек"/>
                 <NavigationItem target-route="/recent" text="История"/>
+                <NavigationItem target-route="https://github.com/receipt-project/" text="GitHub"/>
             </ul>
         </div>
     </nav>

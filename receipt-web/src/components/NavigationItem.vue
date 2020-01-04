@@ -20,7 +20,11 @@
         },
         methods: {
             onClick: function () {
-                this.$router.push(this.targetRoute)
+                if (this.targetRoute[0] === "/") {
+                    this.$router.push(this.targetRoute)
+                } else {
+                    window.open(this.targetRoute, '_blank');
+                }
             }
         }
     }
