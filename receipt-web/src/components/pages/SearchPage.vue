@@ -48,11 +48,11 @@
         data() {
             return {
                 form: {
-                    fn: "8710000101660946",
-                    fd: "39907",
-                    fp: "2483022773",
-                    summary: "218.99",
-                    date: moment("30.01.2019 14:52", "DD.MM.YYYY HH:mm")
+                    fn: "",
+                    fd: "",
+                    fp: "",
+                    summary: "",
+                    date: moment()
                 }
             }
         },
