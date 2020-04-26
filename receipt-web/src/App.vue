@@ -7,6 +7,7 @@
 
 <script>
     import NavigationBar from "@/components/NavigationBar";
+    import "./assets/styles/styles.css";
 
     export default {
         name: 'app',
