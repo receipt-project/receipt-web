@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-dark bg-navbar" style="margin-bottom: 20px;">
+    <nav class="navbar navbar-expand-lg navbar-expand-md navbar-dark bg-dark" style="margin-bottom: 20px;">
         <b-button class="navbar-toggler"  v-b-toggle.navbarToggler>
             <span class="navbar-toggler-icon"/>
         </b-button>

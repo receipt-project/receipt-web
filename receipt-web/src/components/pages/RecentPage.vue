@@ -1,7 +1,11 @@
 <template>
     <div class="container">
         <h2 class="mb-4">История моих покупок</h2>
-        <receipt-card />
+        <div class="row row-cols-1 row-cols-md-3">
+            <div class="col mb-4" v-for="receipt in receipts" :key="receipt">
+                <receipt-card :receipt="receipt" />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -11,7 +15,7 @@ import axios from "axios";
 
 export default {
     name: "RecentPage",
-    data: function() {
+    data() {
         return {
             receipts: []
         };
@@ -19,7 +23,7 @@ export default {
     components: {
         ReceiptCard
     },
-    created: function() {
+    created() {
         axios
             .put("/api/receipts", {
                 limit: 12,
