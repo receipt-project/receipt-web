@@ -20,33 +20,33 @@
 </template>
 
 <script>
-import moment from "moment";
+    import moment from "moment";
 
-export default {
-    name: "ReceiptCard",
-    props: {
-        receipt: {
-            type: Object,
-            default: () => {}
-        }
-    },
-    computed: {
-        date() {
-            return moment(this.receipt.date, "YYYY-MM-DD'T'HH:mm:ss");
-        },
-        href() {
-            return `/receipt/` + this.receipt.id;
-        },
-        cardStyle() {
-            let status = this.receipt.status;
-            if (status === "FAILED") {
-                return "border-danger";
+    export default {
+        name: "ReceiptCard",
+        props: {
+            receipt: {
+                type: Object,
+                default: () => {}
             }
-            if (status === "UNDEFINED") {
-                return "border-warning";
+        },
+        computed: {
+            date() {
+                return moment(this.receipt.date, "YYYY-MM-DD'T'HH:mm:ss");
+            },
+            href() {
+                return `/receipt/` + this.receipt.id;
+            },
+            cardStyle() {
+                let status = this.receipt.status;
+                if (status === "FAILED") {
+                    return "border-danger";
+                }
+                if (status === "UNDEFINED") {
+                    return "border-warning";
+                }
+                return "";
             }
-            return "";
         }
-    }
-};
+    };
 </script>
