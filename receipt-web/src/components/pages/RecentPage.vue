@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <h2 class="mb-4">История моих покупок</h2>
-        <div class="row row-cols-md-3">
-            <div class="col mb-4" v-for="receipt in receipts" :key="receipt">
-                <receipt-card :receipt="receipt" />
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4" v-for="receipt in receipts" :key="receipt">
+                <receipt-card />
             </div>
         </div>
     </div>
