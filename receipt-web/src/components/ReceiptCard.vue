@@ -6,7 +6,7 @@
                 {{date.format("DD.MM.YYYY HH:mm")}}
             </p>
             <p class="card-text">
-                {{receipt.sum}} рублей.
+                {{totalSum}} рублей.
             </p>
             <a v-bind:href="href" class="btn btn-primary">Открыть</a>
         </div>
@@ -14,7 +14,8 @@
 </template>
 
 <script>
-    import moment from "moment"
+    import moment from "moment";
+    import truncated from "./utils/truncated";
 
     export default {
         name: 'ReceiptCard',
@@ -31,7 +32,9 @@
             href: function () {
                 return `/receipt/` + this.receipt.id;
             },
-
+            totalSum() {
+                return truncated(this.receipt.sum);
+            },
             cardStyle: function () {
                 let status = this.receipt.status;
                 if (status === "FAILED") {
@@ -45,4 +48,3 @@
         }
     }
 </script>
-

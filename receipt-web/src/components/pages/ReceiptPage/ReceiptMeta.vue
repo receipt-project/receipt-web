@@ -9,7 +9,8 @@
     </table>
 </template>
 <script>
-    import moment from "moment"
+    import moment from "moment";
+    import truncated from "../../utils/truncated";
 
     export default {
         name: "ReceiptMeta",
@@ -32,7 +33,7 @@
                     } else if (key === "provider") {
                         result["Провайдер"] = meta["provider"];
                     } else if (key === "sum") {
-                        result["Сумма"] = meta["sum"];
+                        result["Сумма"] = truncated(meta["sum"]);
                     } else if (key === "fn") {
                         result["Фискальный накопитель"] = meta["fn"];
                     } else if (key === "fd") {
