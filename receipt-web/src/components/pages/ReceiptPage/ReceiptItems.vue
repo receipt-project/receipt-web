@@ -11,18 +11,25 @@
         <tr v-for="(item, id) in items" v-bind:key="id">
             <td>{{item.text}}</td>
             <td>{{item.price}} р.</td>
-            <td>× {{item.amount}}</td>
+            <td>× {{totalSum(item.amount)}}</td>
         </tr>
         </tbody>
     </table>
 </template>
 <script>
+    import truncated from "../../utils/truncated";
+
     export default {
         name: 'ReceiptItems',
         props: {
             items: {
                 type: Array,
                 default: () => []
+            }
+        },
+        method: {
+            totalSum(num) {
+                return truncated(num);
             }
         }
     }
