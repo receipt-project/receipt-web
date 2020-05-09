@@ -7,19 +7,19 @@
                         <legend>Проверка чека</legend>
                         <div class="form-group">
                             <label for="fn">ФН, Фискальный номер</label>
-                            <input type="text" class="form-control" id="fn" v-model="form.fn">
+                            <input type="text" class="form-control" id="fn" v-model="form.fn" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="fd">ФД, Фискальный документ</label>
-                            <input type="text" class="form-control" id="fd" v-model="form.fd">
+                            <input type="text" class="form-control" id="fd" v-model="form.fd" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="fp">ФП, Фискальный признак</label>
-                            <input type="text" class="form-control" id="fp" v-model="form.fp">
+                            <input type="text" class="form-control" id="fp" v-model="form.fp" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="s">Сумма</label>
-                            <input type="text" class="form-control" id="s" placeholder="0.00" v-model="form.summary">
+                            <input type="text" class="form-control" id="s" placeholder="0.00" v-model="form.summary" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="time">Время</label>
