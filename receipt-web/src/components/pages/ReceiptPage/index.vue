@@ -1,29 +1,17 @@
 <template>
     <div class="container">
-        <div class="row">
+        <div class="row" v-if="notFound">
             <div class="col-12 col-sm-8">
-                <form class="form-inline" v-on:submit.prevent>
-                    <label class="sr-only" for="ReceiptPageReceiptIdInput">Name</label>
-                    <input type="text"
-                           class="form-control mb-2 mr-sm-2"
-                           id="ReceiptPageReceiptIdInput"
-                           v-model="receiptId"
-                           placeholder="Receipt ID">
-                </form>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-sm-8">
-                <p v-if="notFound">
+                <p>
                     Receipt #{{receiptId}} was not found
                 </p>
             </div>
         </div>
-        <div class="row">
+        <div class="row" v-else>
             <div class="col-12">
-                <receipt-items v-bind:items="items"/>
+                <receipt-items :items="items"/>
                 <div style="margin-bottom: 20px"></div>
-                <receipt-meta v-bind:meta="meta"/>
+                <receipt-meta :meta="meta"/>
             </div>
         </div>
     </div>
@@ -37,14 +25,14 @@
     export default {
         name: "ReceiptPage",
         props: ["receiptId"],
-        data: function () {
+        data() {
             return {
                 items: [],
                 meta: {}
             }
         },
         computed: {
-            notFound: function () {
+            notFound() {
                 return this.receiptId && Object.keys(this.meta).length === 0;
             }
         },
@@ -53,7 +41,7 @@
             ReceiptMeta
         },
         watch: {
-            receiptId: function (newValue, oldValue) {
+            receiptId(newValue, oldValue) {
                 if (newValue && newValue !== oldValue) {
                     this.$router.replace(`/receipt/${newValue}`);
                     this.reloadReceipt();
@@ -61,9 +49,8 @@
             }
         },
         methods: {
-            reloadReceipt: function () {
-                axios
-                        .put("/api/receipts", {ids: [this.receiptId]})
+            reloadReceipt() {
+                axios.put("/api/receipts", {ids: [this.receiptId]})
                         .then(result => {
                             let data = result.data;
                             if (data.length > 0) {
@@ -73,14 +60,13 @@
                             }
                         });
 
-                axios
-                        .put("/api/items", {receiptIds: [this.receiptId]})
+                axios.put("/api/items", {receiptIds: [this.receiptId]})
                         .then(result => {
                             this.items = result.data;
                         });
             }
         },
-        created: function () {
+        created() {
             this.reloadReceipt();
         }
     }
