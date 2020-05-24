@@ -1,5 +1,5 @@
 <template>
-    <li class="nav-item" v-bind:class="isActive ? 'active' : ''">
+    <li class="nav-item pr-2" v-bind:class="isActive ? 'active' : ''">
         <a class="nav-link" v-on:click="onClick" href="javascript:void(0);">
             {{text}}
         </a>

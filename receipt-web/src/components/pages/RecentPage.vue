@@ -1,8 +1,9 @@
 <template>
     <div class="container">
+        <h2 class="mb-4">История моих покупок</h2>
         <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6 col-12" v-for="receipt in receipts" v-bind:key="receipt">
-                <receipt-card v-bind:receipt="receipt"/>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4" v-for="receipt in receipts" :key="receipt">
+                <receipt-card :receipt="receipt" />
             </div>
         </div>
     </div>
@@ -14,28 +15,25 @@
 
     export default {
         name: "RecentPage",
-        data: function () {
+        data() {
             return {
                 receipts: []
-            }
+            };
         },
         components: {
             ReceiptCard
         },
-        created: function () {
-            axios.put("/api/receipts",
-                    {
-                        limit: 12,
-                        sort: "DATE",
-                        asc: false
-                    })
-            .then(result => {
-                this.receipts = result.data;
-            })
+        created() {
+            axios.put("/api/receipts", {
+                    limit: 12,
+                    sort: "DATE",
+                    asc: false
+                })
+                .then(result => {
+                    this.receipts = result.data;
+                });
         }
-    }
+    };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
