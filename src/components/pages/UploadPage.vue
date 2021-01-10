@@ -4,7 +4,7 @@
             <div class="col-lg-4 col-md-6 col-sm-8 col-12">
                 <form class="main">
                     <fieldset>
-                        <legend>Проверка чека</legend>
+                        <legend>Добавить чек</legend>
                         <div class="form-group">
                             <label for="fn">ФН, Фискальный номер</label>
                             <input type="text" class="form-control" id="fn" v-model="form.fn" @keypress="enterNumber" />
@@ -52,7 +52,7 @@
     import axios from "axios";
 
     export default {
-        name: "SearchPage",
+        name: "UploadPage",
         data() {
             return {
                 form: {

@@ -6,8 +6,8 @@
         <b-collapse class="collapse navbar-collapse  align-items-baseline" id="navbarToggler">
             <a class="navbar-brand" href="/">Receipt</a>
             <ul class="navbar-nav align-items-start mt-2 mt-lg-0">
-                <NavigationItem target-route="/" text="Получить чек"/>
                 <NavigationItem target-route="/recent" text="История"/>
+                <NavigationItem target-route="/upload" text="Загрузить"/>
                 <NavigationItem target-route="https://github.com/receipt-project/" text="GitHub"/>
             </ul>
         </b-collapse>
