@@ -5,14 +5,14 @@
 Frontend application for Receipt Project
 
 ## Installation
-To install contents of the main page (https://receipt.shefer.space) use
+To run in demo mode
 ```
-make receipt
+make demo
 ```
 
-To install contents of the admin page use
+To install contents of the main page (https://receipt.shefer.space) use
 ```
-make admin
+make deploy
 ```
 
 ## Codestyle
@@ -22,3 +22,5 @@ Please, use `.editorconfig` file to setup the codestyle for your editor
 - Vue.js
 - Bootstrap
 - Jquery
+
+
