@@ -114,7 +114,7 @@
                         fp: this.form.fp,
                         sum: parseFloat(this.form.summary)
                     })
-                    .then(response => this.$router.push(`/receipt/${response.data}`));
+                    .then(response => this.$router.push(`/receipt/${response.data.id}`));
             }
         }
     };
